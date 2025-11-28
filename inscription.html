@@ -1,84 +1,39 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription - XOFcumulé</title>
-
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #0d0d0d;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 350px;
-            margin: 80px auto;
-            background: #1a1a1a;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #2a2a2a;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            background: #121212;
-            border: 1px solid #2d2d2d;
-            border-radius: 10px;
-            color: white;
-            font-size: 15px;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 12px;
-            margin-top: 20px;
-            background: #242424;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 17px;
-        }
-
-        a {
-            color: #9a9a9a;
-            font-size: 14px;
-            display: block;
-            margin-top: 15px;
-            text-align: center;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inscription - Google TV Européenne</title>
+<style>
+body {margin:0;padding:0;background:#0D0D0D;font-family:Arial,sans-serif;color:white;}
+.container{width:90%;max-width:400px;margin:40px auto;background:#1A1A1A;padding:25px;border-radius:15px;box-shadow:0 0 10px #000;}
+h1{text-align:center;color:#E50914;margin-bottom:20px;}
+label{display:block;margin-top:15px;font-size:15px;}
+input{width:100%;padding:12px;margin-top:5px;background:#0D0D0D;border:1px solid #333;border-radius:8px;color:white;}
+.btn-main{width:100%;padding:13px;background:#E50914;color:white;border:none;border-radius:10px;font-size:17px;margin-top:20px;cursor:pointer;}
+.btn-main:hover{background:#B20710;}
+.btn-second{width:100%;padding:12px;background:transparent;border:2px solid #E50914;color:#E50914;border-radius:10px;font-size:16px;margin-top:12px;cursor:pointer;}
+.btn-second:hover{background:#E50914;color:white;}
+p{text-align:center;margin-top:15px;font-size:14px;color:#ccc;}
+</style>
 </head>
-
 <body>
-    <div class="container">
-        <h2>Créer un compte</h2>
+<div class="container">
+<h1>Inscription</h1>
+<label>Email</label>
+<input type="email" id="email" placeholder="Votre adresse e-mail">
+<label>Mot de passe</label>
+<input type="password" id="password" placeholder="Votre mot de passe">
+<button class="btn-main" onclick="inscription()">S’inscrire</button>
+<button class="btn-second" onclick="window.location.href='connexion.html'">Connexion</button>
+<p>Après inscription, votre compte sera en attente d'activation manuelle.</p>
+</div>
 
-        <input type="email" id="email" placeholder="Adresse e-mail">
-        <input type="password" id="password" placeholder="Mot de passe">
-
-        <button class="btn" onclick="inscription()">S'inscrire</button>
-
-        <a href="connexion.html">Déjà un compte ? Connexion</a>
-    </div>
-
-    <script>
-        function inscription() {
-            // Nous connecterons Firebase après, étape par étape.
-            alert("Inscription réussie. Votre compte est en attente d'activation manuel par un administrateur.");
-            window.location.href = "attente_activation.html";
-        }
-    </script>
+<script>
+function inscription(){
+    alert("Inscription réussie ! Votre compte est en attente d'activation manuel par un administrateur.");
+    window.location.href = "attente_activation.html";
+}
+</script>
 </body>
 </html>
