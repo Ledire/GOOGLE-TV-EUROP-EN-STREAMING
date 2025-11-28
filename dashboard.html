@@ -5,43 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard - Google TV Européenne</title>
 <style>
-body{margin:0;padding:0;background:#0D0D0D;font-family:Arial,sans-serif;color:white;}
-.header{background:#1A1A1A;padding:20px;text-align:center;border-bottom:1px solid #2a2a2a;}
-.solde{font-size:22px;font-weight:bold;color:#00ff99;}
-.container{width:95%;margin:20px auto;}
-.video-card{background:#1A1A1A;padding:15px;border-radius:12px;border:1px solid #2a2a2a;margin-bottom:20px;}
-.video-title{font-size:18px;margin-bottom:10px;}
-.montant{color:#00ffcc;font-size:16px;margin-bottom:12px;}
-.btn{width:100%;padding:10px;background:#242424;border:none;border-radius:10px;color:white;font-size:16px;cursor:pointer;}
-.btn:hover{background:#333;}
+body {margin:0;padding:0;background:#0D0D0D;font-family:Arial,sans-serif;color:white;}
+header{background:#1A1A1A;padding:15px;text-align:center;font-size:22px;color:#E50914;}
+.container{width:90%;max-width:900px;margin:20px auto;}
+.video-card{background:#1A1A1A;margin:15px 0;padding:15px;border-radius:15px;box-shadow:0 0 10px #000;}
+.video-card h3{color:#E50914;margin-bottom:10px;}
+.video-card button{padding:10px 15px;background:#E50914;color:white;border:none;border-radius:10px;cursor:pointer;margin-top:10px;}
+.video-card button:hover{background:#B20710;}
+#xofCumulé{font-size:18px;margin:15px 0;text-align:right;color:#00FF00;}
 </style>
 </head>
 <body>
-<div class="header">
-<div class="solde">Total : 0 XOFcumulé</div>
-<button style="margin-top:10px;padding:8px 12px;background:#E50914;border:none;color:white;border-radius:8px;cursor:pointer;" onclick="deconnexion()">Déconnexion</button>
-</div>
+<header>
+Google TV Européenne - Dashboard
+</header>
 <div class="container">
+<p id="xofCumulé">XOFcumulé : 0</p>
+
 <div class="video-card">
-<div class="video-title">Vidéo 1</div>
-<div class="montant">+2500 XOF</div>
-<button class="btn" onclick="voirVideo(2500)">Voir</button>
+<h3>Vidéo 1 - 2500 XOF</h3>
+<button onclick="regarderVideo(2500)">Regarder</button>
 </div>
+
 <div class="video-card">
-<div class="video-title">Vidéo 2</div>
-<div class="montant">+6000 XOF</div>
-<button class="btn" onclick="voirVideo(6000)">Voir</button>
+<h3>Vidéo 2 - 6089 XOF</h3>
+<button onclick="regarderVideo(6089)">Regarder</button>
 </div>
+
 <div class="video-card">
-<div class="video-title">Vidéo 3</div>
-<div class="montant">+3000 XOF</div>
-<button class="btn" onclick="voirVideo(3000)">Voir</button>
+<h3>Vidéo 3 - 3000 XOF</h3>
+<button onclick="regarderVideo(3000)">Regarder</button>
 </div>
-<div class="video-card">
-<div class="video-title">Vidéo 4</div>
-<div class="montant">+1500 XOF</div>
-<button class="btn" onclick="voirVideo(1500)">Voir</button>
-</div>
+
+<!-- Ajoute autant de vidéos que tu veux -->
+<button style="margin-top:30px;padding:12px 20px;background:#E50914;color:white;border:none;border-radius:10px;cursor:pointer;" onclick="deconnexion()">Déconnexion</button>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -62,28 +59,36 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
-let total = 0;
+
+let currentUser;
 
 auth.onAuthStateChanged(user=>{
-    if(!user){
+    if(user){
+        currentUser = user;
+        const docRef = db.collection("users").doc(user.uid);
+        docRef.get().then(doc=>{
+            if(doc.exists){
+                document.getElementById("xofCumulé").innerText = "XOFcumulé : " + doc.data().xofCumulé;
+            }
+        });
+    } else {
         window.location.href="connexion.html";
-        return;
     }
-    db.collection("users").doc(user.uid).get().then(doc=>{
-        if(doc.exists){
-            total = doc.data().xofCumulé || 0;
-            document.querySelector(".solde").innerText = "Total : " + total + " XOFcumulé";
-        }
-    });
 });
 
-function voirVideo(montant){
-    const user = auth.currentUser;
-    if(!user) return;
-    total += montant;
-    document.querySelector(".solde").innerText = "Total : "+total+" XOFcumulé";
-    db.collection("users").doc(user.uid).update({xofCumulé: total});
-    alert("Vidéo vue ! +"+montant+" XOF ajouté");
+function regarderVideo(montant){
+    if(currentUser){
+        const docRef = db.collection("users").doc(currentUser.uid);
+        docRef.update({
+            xofCumulé: firebase.firestore.FieldValue.increment(montant)
+        }).then(()=>{
+            docRef.get().then(doc=>{
+                document.getElementById("xofCumulé").innerText = "XOFcumulé : " + doc.data().xofCumulé;
+            });
+        }).catch(err=>{
+            alert("Erreur : "+err.message);
+        });
+    }
 }
 
 function deconnexion(){
