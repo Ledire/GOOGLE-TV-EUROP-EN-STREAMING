@@ -29,11 +29,50 @@ p{text-align:center;margin-top:15px;font-size:14px;color:#ccc;}
 <p>Après inscription, votre compte sera en attente d'activation manuelle.</p>
 </div>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
 <script>
-function inscription(){
-    alert("Inscription réussie ! Votre compte est en attente d'activation manuel par un administrateur.");
-    window.location.href = "attente_activation.html";
-}
+  // 🔹 CONFIGURATION FIREBASE
+  const firebaseConfig = {
+    apiKey: "TON_API_KEY",
+    authDomain: "TON_PROJET.firebaseapp.com",
+    projectId: "TON_PROJET",
+    storageBucket: "TON_PROJET.appspot.com",
+    messagingSenderId: "TON_ID",
+    appId: "TON_APP_ID"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  function inscription(){
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if(!email || !password){
+        alert("Veuillez remplir tous les champs !");
+        return;
+    }
+
+    auth.createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+        const user = userCredential.user;
+        db.collection("users").doc(user.uid).set({
+            email: email,
+            actif: false,   // compte en attente d'activation
+            numero: null,
+            xofCumulé: 0
+        });
+        alert("Inscription réussie ! Votre compte est en attente d'activation par un administrateur.");
+        window.location.href = "attente_activation.html";
+    })
+    .catch((error) => {
+        alert(error.message);
+    });
+  }
 </script>
 </body>
 </html>
