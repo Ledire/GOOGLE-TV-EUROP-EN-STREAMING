@@ -22,28 +22,27 @@ p{margin-top:15px;font-size:16px;color:#ccc;}
 <p>Veuillez contacter votre administrateur pour associer votre numéro afin de recevoir vos gains.</p>
 </div>
 
-<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script>
 const firebaseConfig = {
-    apiKey: "TON_API_KEY",
-    authDomain: "TON_PROJET.firebaseapp.com",
-    projectId: "TON_PROJET",
-    storageBucket: "TON_PROJET.appspot.com",
-    messagingSenderId: "TON_ID",
-    appId: "TON_APP_ID"
+  apiKey: "AIzaSyBtQcl0JheU_MB8aMC0083PSXbTNFPbpKk",
+  authDomain: "tv-streaming-c0203.firebaseapp.com",
+  projectId: "tv-streaming-c0203",
+  storageBucket: "tv-streaming-c0203.firebasestorage.app",
+  messagingSenderId: "441464506092",
+  appId: "1:441464506092:web:21c36a1b70fd92dc4347c9",
+  measurementId: "G-FLCFB37RNY"
 };
+
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
 auth.onAuthStateChanged(user=>{
-    if(!user){
-        window.location.href="connexion.html";
-    }
+    if(!user) window.location.href="connexion.html";
 });
 
 function associerNumero(){
