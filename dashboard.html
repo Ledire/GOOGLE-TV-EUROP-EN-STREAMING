@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - XOFcumulé</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0d0d0d;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            background: #1a1a1a;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .solde {
+            font-size: 22px;
+            font-weight: bold;
+            color: #00ff99;
+        }
+
+        .container {
+            width: 95%;
+            margin: 20px auto;
+        }
+
+        .video-card {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+            margin-bottom: 20px;
+        }
+
+        .video-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .montant {
+            color: #00ffcc;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background: #242424;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="solde">Total : 0 XOFcumulé</div>
+    </div>
+
+    <div class="container">
+
+        <div class="video-card">
+            <div class="video-title">Vidéo 1</div>
+            <div class="montant">+2500 XOF</div>
+            <button class="btn" onclick="voirVideo(2500)">Voir</button>
+        </div>
+
+        <div class="video-card">
+            <div class="video-title">Vidéo 2</div>
+            <div class="montant">+6000 XOF</div>
+            <button class="btn" onclick="voirVideo(6000)">Voir</button>
+        </div>
+
+        <div class="video-card">
+            <div class="video-title">Vidéo 3</div>
+            <div class="montant">+3000 XOF</div>
+            <button class="btn" onclick="voirVideo(3000)">Voir</button>
+        </div>
+
+        <div class="video-card">
+            <div class="video-title">Vidéo 4</div>
+            <div class="montant">+1500 XOF</div>
+            <button class="btn" onclick="voirVideo(1500)">Voir</button>
+        </div>
+
+    </div>
+
+    <script>
+        let total = 0;
+
+        function voirVideo(montant) {
+            total += montant;
+            document.querySelector(".solde").innerText = "Total : " + total + " XOFcumulé";
+            alert("Vidéo vue ! +" + montant + " XOF ajouté");
+        }
+    </script>
+
+</body>
+</html>
