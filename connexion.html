@@ -26,10 +26,53 @@ p{text-align:center;margin-top:15px;font-size:14px;color:#ccc;}
 <p>Votre compte doit être activé par un administrateur.</p>
 </div>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
 <script>
+const firebaseConfig = {
+    apiKey: "TON_API_KEY",
+    authDomain: "TON_PROJET.firebaseapp.com",
+    projectId: "TON_PROJET",
+    storageBucket: "TON_PROJET.appspot.com",
+    messagingSenderId: "TON_ID",
+    appId: "TON_APP_ID"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
 function connexion(){
-    alert("Connexion réussie !");
-    window.location.href = "attente_activation.html";
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if(!email || !password){
+        alert("Veuillez remplir tous les champs !");
+        return;
+    }
+
+    auth.signInWithEmailAndPassword(email,password)
+    .then((userCredential)=>{
+        const user = userCredential.user;
+        db.collection("users").doc(user.uid).get()
+        .then(doc=>{
+            if(doc.exists){
+                if(doc.data().actif){
+                    window.location.href="associer_numero.html";
+                } else{
+                    alert("Votre compte n'est pas encore activé. Veuillez contacter l'administrateur.");
+                    window.location.href="attente_activation.html";
+                }
+            } else{
+                alert("Utilisateur non trouvé !");
+            }
+        });
+    })
+    .catch((error)=>{
+        alert(error.message);
+    });
 }
 </script>
 </body>
