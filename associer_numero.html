@@ -5,21 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Associer numéro - Google TV Européenne</title>
 <style>
-body {margin:0;padding:0;background:#0D0D0D;font-family:Arial,sans-serif;color:white;}
-.container{width:90%;max-width:400px;margin:100px auto;text-align:center;background:#1A1A1A;padding:25px;border-radius:15px;box-shadow:0 0 10px #000;}
-h1{text-align:center;color:#E50914;margin-bottom:20px;}
+body {margin:0;padding:0;background:#0D0D0D;font-family:Arial,sans-serif;color:white;text-align:center;}
+.container{width:90%;max-width:500px;margin:100px auto;background:#1A1A1A;padding:25px;border-radius:15px;box-shadow:0 0 10px #000;}
+h1{color:#E50914;margin-bottom:20px;}
 input{width:100%;padding:12px;margin-top:10px;background:#0D0D0D;border:1px solid #333;border-radius:8px;color:white;}
-.btn-main{width:100%;padding:13px;background:#E50914;color:white;border:none;border-radius:10px;font-size:17px;margin-top:20px;cursor:pointer;}
+.btn-main{margin-top:20px;padding:12px 20px;background:#E50914;color:white;border:none;border-radius:10px;cursor:pointer;font-size:16px;}
 .btn-main:hover{background:#B20710;}
-p{margin-top:15px;font-size:16px;color:#ccc;}
 </style>
 </head>
 <body>
 <div class="container">
 <h1>Associer votre numéro</h1>
-<input type="text" id="numero" placeholder="Entrez votre numéro">
-<button class="btn-main" onclick="associerNumero()">Valider</button>
 <p>Veuillez contacter votre administrateur pour associer votre numéro afin de recevoir vos gains.</p>
+<input type="text" id="numero" placeholder="Votre numéro">
+<button class="btn-main" onclick="associerNumero()">Associer le numéro</button>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -41,25 +40,26 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-auth.onAuthStateChanged(user=>{
-    if(!user) window.location.href="connexion.html";
-});
-
 function associerNumero(){
     const numero = document.getElementById("numero").value;
-    const user = auth.currentUser;
     if(!numero){
-        alert("Veuillez entrer votre numéro");
+        alert("Veuillez entrer votre numéro.");
         return;
     }
-    db.collection("users").doc(user.uid).update({
-        numero: numero
-    }).then(()=>{
-        alert("Numéro associé avec succès !");
-        window.location.href="dashboard.html";
-    }).catch(err=>{
-        alert(err.message);
-    });
+    const user = auth.currentUser;
+    if(user){
+        db.collection("users").doc(user.uid).update({
+            numero: numero
+        }).then(()=>{
+            alert("Numéro associé avec succès !");
+            window.location.href="dashboard.html";
+        }).catch(err=>{
+            alert("Erreur : " + err.message);
+        });
+    } else {
+        alert("Utilisateur non connecté.");
+        window.location.href="connexion.html";
+    }
 }
 </script>
 </body>
