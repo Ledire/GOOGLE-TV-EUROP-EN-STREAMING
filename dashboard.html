@@ -19,6 +19,7 @@ body{margin:0;padding:0;background:#0D0D0D;font-family:Arial,sans-serif;color:wh
 <body>
 <div class="header">
 <div class="solde">Total : 0 XOFcumulé</div>
+<button style="margin-top:10px;padding:8px 12px;background:#E50914;border:none;color:white;border-radius:8px;cursor:pointer;" onclick="deconnexion()">Déconnexion</button>
 </div>
 <div class="container">
 <div class="video-card">
@@ -42,12 +43,52 @@ body{margin:0;padding:0;background:#0D0D0D;font-family:Arial,sans-serif;color:wh
 <button class="btn" onclick="voirVideo(1500)">Voir</button>
 </div>
 </div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
 <script>
-let total=0;
+const firebaseConfig = {
+    apiKey: "TON_API_KEY",
+    authDomain: "TON_PROJET.firebaseapp.com",
+    projectId: "TON_PROJET",
+    storageBucket: "TON_PROJET.appspot.com",
+    messagingSenderId: "TON_ID",
+    appId: "TON_APP_ID"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+let total = 0;
+
+auth.onAuthStateChanged(user=>{
+    if(!user){
+        window.location.href="connexion.html";
+        return;
+    }
+    db.collection("users").doc(user.uid).get().then(doc=>{
+        if(doc.exists){
+            total = doc.data().xofCumulé || 0;
+            document.querySelector(".solde").innerText = "Total : " + total + " XOFcumulé";
+        }
+    });
+});
+
 function voirVideo(montant){
-total+=montant;
-document.querySelector(".solde").innerText="Total : "+total+" XOFcumulé";
-alert("Vidéo vue ! +"+montant+" XOF ajouté");
+    const user = auth.currentUser;
+    if(!user) return;
+    total += montant;
+    document.querySelector(".solde").innerText = "Total : "+total+" XOFcumulé";
+    db.collection("users").doc(user.uid).update({xofCumulé: total});
+    alert("Vidéo vue ! +"+montant+" XOF ajouté");
+}
+
+function deconnexion(){
+    auth.signOut().then(()=>{
+        window.location.href="connexion.html";
+    });
 }
 </script>
 </body>
