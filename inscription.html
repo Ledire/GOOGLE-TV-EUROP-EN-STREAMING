@@ -26,6 +26,7 @@ input{width:100%;padding:12px;margin-top:10px;background:#0D0D0D;border:1px soli
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script>
+// Configuration Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBtQcl0JheU_MB8aMC0083PSXbTNFPbpKk",
   authDomain: "tv-streaming-c0203.firebaseapp.com",
@@ -40,34 +41,41 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
+// Fonction d'inscription
 function inscription(){
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
+
     if(!email || !password){
         alert("Veuillez remplir tous les champs");
         return;
     }
-    auth.createUserWithEmailAndPassword(email,password)
+
+    auth.createUserWithEmailAndPassword(email, password)
     .then((userCredential)=>{
         const user = userCredential.user;
+
+        // Création automatique du document Firestore
         db.collection("users").doc(user.uid).set({
             email: email,
             actif: false,
             numero: null,
             xofCumulé: 0
         }).then(()=>{
-            alert("Inscription réussie, votre compte est en attente d'activation manuel par un administrateur.");
-            window.location.href="attente_activation.html";
+            alert("Inscription réussie ! Votre compte est en attente d'activation manuelle par un administrateur.");
+            window.location.href = "attente_activation.html";
+        }).catch((error)=>{
+            alert("Erreur lors de la création du document Firestore : " + error.message);
         });
+
     })
     .catch((error)=>{
-        // Gestion des erreurs claires
         if(error.code === "auth/email-already-in-use"){
-            alert("Cette adresse email est déjà utilisée. Veuillez vous connecter ou utiliser un autre email.");
+            alert("Cette adresse email est déjà utilisée.");
         } else if(error.code === "auth/invalid-email"){
-            alert("Adresse email invalide. Veuillez entrer un email correct.");
+            alert("Adresse email invalide.");
         } else if(error.code === "auth/weak-password"){
-            alert("Mot de passe trop faible. Veuillez utiliser au moins 6 caractères.");
+            alert("Le mot de passe est trop faible.");
         } else {
             alert(error.message);
         }
