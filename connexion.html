@@ -6,14 +6,11 @@
 <title>Connexion - Google TV Européenne</title>
 <style>
 body {margin:0;padding:0;background:#0D0D0D;font-family:Arial,sans-serif;color:white;}
-.container{width:90%;max-width:400px;margin:40px auto;background:#1A1A1A;padding:25px;border-radius:15px;box-shadow:0 0 10px #000;}
+.container{width:90%;max-width:400px;margin:100px auto;text-align:center;background:#1A1A1A;padding:25px;border-radius:15px;box-shadow:0 0 10px #000;}
 h1{text-align:center;color:#E50914;margin-bottom:20px;}
-input{width:100%;padding:12px;margin-top:5px;background:#0D0D0D;border:1px solid #333;border-radius:8px;color:white;margin-top:10px;}
+input{width:100%;padding:12px;margin-top:10px;background:#0D0D0D;border:1px solid #333;border-radius:8px;color:white;}
 .btn-main{width:100%;padding:13px;background:#E50914;color:white;border:none;border-radius:10px;font-size:17px;margin-top:20px;cursor:pointer;}
 .btn-main:hover{background:#B20710;}
-.btn-second{width:100%;padding:12px;background:transparent;border:2px solid #E50914;color:#E50914;border-radius:10px;font-size:16px;margin-top:12px;cursor:pointer;}
-.btn-second:hover{background:#E50914;color:white;}
-p{text-align:center;margin-top:15px;font-size:14px;color:#ccc;}
 </style>
 </head>
 <body>
@@ -22,24 +19,23 @@ p{text-align:center;margin-top:15px;font-size:14px;color:#ccc;}
 <input type="email" id="email" placeholder="Email">
 <input type="password" id="password" placeholder="Mot de passe">
 <button class="btn-main" onclick="connexion()">Se connecter</button>
-<button class="btn-second" onclick="window.location.href='inscription.html'">S’inscrire</button>
-<p>Votre compte doit être activé par un administrateur.</p>
 </div>
 
-<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script>
 const firebaseConfig = {
-    apiKey: "TON_API_KEY",
-    authDomain: "TON_PROJET.firebaseapp.com",
-    projectId: "TON_PROJET",
-    storageBucket: "TON_PROJET.appspot.com",
-    messagingSenderId: "TON_ID",
-    appId: "TON_APP_ID"
+  apiKey: "AIzaSyBtQcl0JheU_MB8aMC0083PSXbTNFPbpKk",
+  authDomain: "tv-streaming-c0203.firebaseapp.com",
+  projectId: "tv-streaming-c0203",
+  storageBucket: "tv-streaming-c0203.firebasestorage.app",
+  messagingSenderId: "441464506092",
+  appId: "1:441464506092:web:21c36a1b70fd92dc4347c9",
+  measurementId: "G-FLCFB37RNY"
 };
+
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
@@ -47,26 +43,23 @@ const db = firebase.firestore();
 function connexion(){
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-
     if(!email || !password){
-        alert("Veuillez remplir tous les champs !");
+        alert("Veuillez remplir tous les champs");
         return;
     }
-
     auth.signInWithEmailAndPassword(email,password)
     .then((userCredential)=>{
         const user = userCredential.user;
-        db.collection("users").doc(user.uid).get()
-        .then(doc=>{
+        db.collection("users").doc(user.uid).get().then(doc=>{
             if(doc.exists){
-                if(doc.data().actif){
-                    window.location.href="associer_numero.html";
-                } else{
-                    alert("Votre compte n'est pas encore activé. Veuillez contacter l'administrateur.");
+                if(!doc.data().actif){
+                    alert("Inscription réussie, votre compte est en attente d'activation manuel par un administrateur. Veuillez contacter votre administrateur.");
                     window.location.href="attente_activation.html";
+                }else if(!doc.data().numero){
+                    window.location.href="associer_numero.html";
+                }else{
+                    window.location.href="dashboard.html";
                 }
-            } else{
-                alert("Utilisateur non trouvé !");
             }
         });
     })
