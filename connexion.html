@@ -52,19 +52,30 @@ function connexion(){
         const user = userCredential.user;
         db.collection("users").doc(user.uid).get().then(doc=>{
             if(doc.exists){
-                if(!doc.data().actif){
-                    alert("Inscription réussie, votre compte est en attente d'activation manuel par un administrateur. Veuillez contacter votre administrateur.");
+                const data = doc.data();
+                if(!data.actif){
                     window.location.href="attente_activation.html";
-                }else if(!doc.data().numero){
+                } else if(!data.numero){
                     window.location.href="associer_numero.html";
-                }else{
+                } else {
                     window.location.href="dashboard.html";
                 }
+            } else {
+                alert("Compte introuvable. Veuillez vous inscrire.");
             }
         });
     })
     .catch((error)=>{
-        alert(error.message);
+        // Gestion des erreurs claires
+        if(error.code === "auth/user-not-found"){
+            alert("Email non trouvé. Veuillez vérifier ou vous inscrire.");
+        } else if(error.code === "auth/wrong-password"){
+            alert("Mot de passe incorrect. Veuillez réessayer.");
+        } else if(error.code === "auth/invalid-email"){
+            alert("Adresse email invalide. Veuillez entrer un email correct.");
+        } else {
+            alert(error.message);
+        }
     });
 }
 </script>
