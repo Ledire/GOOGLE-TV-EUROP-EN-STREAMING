@@ -18,7 +18,30 @@ p{margin-top:15px;font-size:16px;color:#ccc;}
 <h1>Compte en attente</h1>
 <p>Inscription réussie.<br>Votre compte est en attente d'activation manuel par un administrateur.</p>
 <p><b>Veuillez contacter votre administrateur.</b></p>
-<button class="btn-main" onclick="window.location.href='connexion.html'">Déconnexion</button>
+<button class="btn-main" onclick="deconnexion()">Déconnexion</button>
 </div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+    apiKey: "TON_API_KEY",
+    authDomain: "TON_PROJET.firebaseapp.com",
+    projectId: "TON_PROJET",
+    storageBucket: "TON_PROJET.appspot.com",
+    messagingSenderId: "TON_ID",
+    appId: "TON_APP_ID"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+function deconnexion(){
+    auth.signOut().then(()=>{
+        window.location.href="connexion.html";
+    });
+}
+</script>
 </body>
 </html>
