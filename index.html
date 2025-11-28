@@ -1,54 +1,26 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XOFcumulé - Accueil</title>
-
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #0d0d0d;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            text-align: center;
-            margin-top: 80px;
-        }
-
-        h1 {
-            font-size: 30px;
-            color: #ffffff;
-        }
-
-        .btn {
-            display: block;
-            margin: 20px auto;
-            width: 200px;
-            padding: 12px;
-            background: #202020;
-            border-radius: 10px;
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            border: 1px solid #303030;
-        }
-
-        .btn:hover {
-            background: #303030;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google TV Européenne</title>
+<style>
+body {margin:0;padding:0;background:#0D0D0D;font-family:Arial,sans-serif;color:white;}
+.container{width:90%;max-width:400px;margin:100px auto;text-align:center;background:#1A1A1A;padding:25px;border-radius:15px;box-shadow:0 0 10px #000;}
+h1{text-align:center;color:#E50914;margin-bottom:20px;}
+.btn-main{width:100%;padding:13px;background:#E50914;color:white;border:none;border-radius:10px;font-size:17px;margin-top:20px;cursor:pointer;}
+.btn-main:hover{background:#B20710;}
+.btn-second{width:100%;padding:12px;background:transparent;border:2px solid #E50914;color:#E50914;border-radius:10px;font-size:16px;margin-top:12px;cursor:pointer;}
+.btn-second:hover{background:#E50914;color:white;}
+p{text-align:center;margin-top:15px;font-size:14px;color:#ccc;}
+</style>
 </head>
-
 <body>
-    <div class="container">
-        <h1>XOFcumulé</h1>
-
-        <a class="btn" href="inscription.html">Inscription</a>
-        <a class="btn" href="connexion.html">Connexion</a>
-    </div>
+<div class="container">
+<h1>Google TV Européenne</h1>
+<p>Bienvenue sur votre plateforme de streaming.</p>
+<button class="btn-main" onclick="window.location.href='inscription.html'">S’inscrire</button>
+<button class="btn-second" onclick="window.location.href='connexion.html'">Se connecter</button>
+</div>
 </body>
 </html>
