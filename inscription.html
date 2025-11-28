@@ -61,7 +61,16 @@ function inscription(){
         });
     })
     .catch((error)=>{
-        alert(error.message);
+        // Gestion des erreurs claires
+        if(error.code === "auth/email-already-in-use"){
+            alert("Cette adresse email est déjà utilisée. Veuillez vous connecter ou utiliser un autre email.");
+        } else if(error.code === "auth/invalid-email"){
+            alert("Adresse email invalide. Veuillez entrer un email correct.");
+        } else if(error.code === "auth/weak-password"){
+            alert("Mot de passe trop faible. Veuillez utiliser au moins 6 caractères.");
+        } else {
+            alert(error.message);
+        }
     });
 }
 </script>
