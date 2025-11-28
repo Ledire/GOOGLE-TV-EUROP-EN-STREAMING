@@ -1,63 +1,24 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compte en attente - XOFcumulé</title>
-
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #0d0d0d;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 380px;
-            margin: 100px auto;
-            text-align: center;
-            background: #1a1a1a;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #2a2a2a;
-        }
-
-        h2 {
-            margin-bottom: 15px;
-        }
-
-        p {
-            font-size: 16px;
-            color: #cfcfcf;
-        }
-
-        .btn {
-            display: block;
-            margin: 25px auto 0;
-            padding: 12px;
-            background: #242424;
-            color: white;
-            border-radius: 10px;
-            font-size: 17px;
-            text-decoration: none;
-            width: 200px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compte en attente - Google TV Européenne</title>
+<style>
+body {margin:0;padding:0;background:#0D0D0D;font-family:Arial,sans-serif;color:white;}
+.container{width:90%;max-width:400px;margin:100px auto;text-align:center;background:#1A1A1A;padding:25px;border-radius:15px;box-shadow:0 0 10px #000;}
+h1{text-align:center;color:#E50914;margin-bottom:20px;}
+.btn-main{width:100%;padding:13px;background:#E50914;color:white;border:none;border-radius:10px;font-size:17px;margin-top:20px;cursor:pointer;}
+.btn-main:hover{background:#B20710;}
+p{margin-top:15px;font-size:16px;color:#ccc;}
+</style>
 </head>
-
 <body>
-    <div class="container">
-        <h2>Compte en attente</h2>
-
-        <p>Inscription réussie.<br>
-        Votre compte est en attente d'activation manuel par un administrateur.</p>
-
-        <p><b>Veuillez contacter votre administrateur.</b></p>
-
-        <a class="btn" href="connexion.html">Déconnexion</a>
-    </div>
+<div class="container">
+<h1>Compte en attente</h1>
+<p>Inscription réussie.<br>Votre compte est en attente d'activation manuel par un administrateur.</p>
+<p><b>Veuillez contacter votre administrateur.</b></p>
+<button class="btn-main" onclick="window.location.href='connexion.html'">Déconnexion</button>
+</div>
 </body>
 </html>
